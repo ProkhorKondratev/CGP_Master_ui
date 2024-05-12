@@ -1,0 +1,12 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/app/src
+      - ./dist:/app/dist
+    environment:
+      - NODE_ENV=production
