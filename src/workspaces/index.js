@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Auth } from "../auth/auth";
+import "./css/style.scss";
 
 class WorkSpace {
     constructor(props) {
@@ -54,17 +55,14 @@ class WorkSpacesList {
     }
 }
 
-// создаем кноку выхода из аккаунта
-const logoutButton = document.createElement("button");
-logoutButton.textContent = "Выйти";
+const logoutButton = document.querySelector("#logout");
 logoutButton.onclick = async () => {
     const auth = new Auth();
     await auth.logout(true);
 };
-setTimeout(() => {
-    document.body.appendChild(logoutButton);
-}, 1000);
 
 const auth = new Auth();
-console.log(await auth.checkAuth(false));
-new WorkSpacesList().init();
+auth.checkAuth(true).then(() => {
+    // const container = document.querySelector("#workspaces");
+    // new WorkSpacesList(container).init();
+});

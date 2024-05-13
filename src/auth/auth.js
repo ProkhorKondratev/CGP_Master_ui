@@ -13,7 +13,7 @@ export class Auth {
             });
             if (!res.data.isAuthenticated) {
                 if (redirect) {
-                    window.location.href = "auth.html";
+                    window.location.href = "auth";
                 }
                 return false;
             }
@@ -40,7 +40,7 @@ export class Auth {
                 withCredentials: true,
             });
             this.isAuthenticated = false;
-            if (redirect) window.location.href = "auth.html";
+            if (redirect) window.location.href = "auth";
         } catch (err) {
             console.error("Ошибка при выходе из аккаунта");
         }
@@ -64,7 +64,7 @@ export class Auth {
             );
             if (res.status === 200) {
                 this.isAuthenticated = true;
-                window.location.href = "workspaces.html";
+                window.location.href = "workspaces";
             } else {
                 alert("Неверный логин или пароль");
             }

@@ -1,0 +1,137 @@
+@import "bootstrap/scss/bootstrap";
+
+$body-bg: #5149ac;
+$container-bg: #1b1550;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1200px;
+
+$cgp-nav-active-color: #678afe;
+$cgp-nav-text-color: #9694ad;
+$cgp-nav-text-hover-color: white;
+$cgp-nav-item-padding: 10px;
+$cgp-nav-item-border-radius: 10px;
+$transition-speed: 0.3s;
+
+html, body {
+    position: absolute;
+    background-color: $body-bg;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.cgp-container {
+    display: flex;
+    background-color: $container-bg;
+    color: white;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 40px;
+    height: calc(100% - 80px);
+    box-sizing: border-box;
+
+    @media (max-width: $breakpoint-md) {
+        width: calc(100% - 80px);
+        margin: 40px;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+        width: 85%;
+        margin: 40px auto;
+    }
+}
+
+.cgp-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    height: 100%;
+    min-width: 300px;
+    width: auto;
+    border-right: 0.5px solid $cgp-nav-text-color;
+    
+    .cgp-nav__head, .cgp-nav__footer {
+        .cgp-nav__menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
+    .cgp-nav__menu-item {
+        display: flex;
+        align-items: center;
+        color: $cgp-nav-text-color;
+        padding: $cgp-nav-item-padding;
+        border-radius: $cgp-nav-item-border-radius;
+        transition: background-color $transition-speed, color $transition-speed;
+        cursor: pointer;
+
+        img {
+            margin-right: 12px;
+            filter: invert(0.5);
+            width: 18px;
+            height: 18px;
+        }
+
+        &:hover, &.active {
+            background-color: $cgp-nav-active-color;
+            color: $cgp-nav-text-hover-color;
+
+            img {
+                filter: invert(1);
+            }
+        }
+    }
+
+    .cgp-nav__logo {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+}
+
+.cgp-content {
+    padding: 40px;
+    width: 100%;
+
+    .cgp-content__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .cgp-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+
+            .cgp-user__fio {
+                font-weight: bold;
+            }
+
+            .cgp-user__avatar img {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                overflow: hidden;
+                filter: invert(1);
+            }
+
+            .cgp-user__exit img {
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+                filter: invert(1);
+            }
+        }
+
+        .cgp-content__title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+}
+

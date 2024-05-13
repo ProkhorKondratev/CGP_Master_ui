@@ -1,6 +1,7 @@
-const { log } = require("console");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const copyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 const buildPath = path.resolve(__dirname, "dist");
@@ -8,50 +9,45 @@ const srcPath = path.resolve(__dirname, "src");
 
 module.exports = {
     entry: {
-        workspaces: srcPath + "/workspaces/index.js",
-        worknodes: srcPath + "/worknodes/index.js",
-        geodata: srcPath + "/geodata/index.js",
-        profile: srcPath + "/profile/index.js",
-        map: srcPath + "/map/index.js",
+        index: srcPath + "/workspaces/index.js",
         auth: srcPath + "/auth/index.js",
     },
     output: {
         filename: "[name].[contenthash:20].js",
         path: buildPath,
+        clean: true,
     },
     module: {
         rules: [
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"],
+                test: /\.(scss)$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    {
+                        loader: "css-loader",
+                    },
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [autoprefixer],
+                            },
+                        },
+                    },
+                    {
+                        loader: "sass-loader",
+                    },
+                ],
             },
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: "./src/workspaces/index.html",
-            filename: "workspaces.html",
-            chunks: ["workspaces"],
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/worknodes/index.html",
-            filename: "worknodes.html",
-            chunks: ["worknodes"],
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/geodata/index.html",
-            filename: "geodata.html",
-            chunks: ["geodata"],
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/profile/index.html",
-            filename: "profile.html",
-            chunks: ["profile"],
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/map/index.html",
-            filename: "map.html",
-            chunks: ["map"],
+            filename: "index.html",
+            chunks: ["index"],
         }),
         new HtmlWebpackPlugin({
             template: "./src/auth/index.html",
@@ -62,5 +58,24 @@ module.exports = {
             filename: "[name].[contenthash].css",
             chunkFilename: "[id].[contenthash].css",
         }),
+        new copyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, "assets"),
+                    to: buildPath + "/assets",
+                },
+            ],
+        }),
     ],
+    devServer: {
+        port: 8080,
+        hot: true,
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/auth$/, to: "/auth.html" }, // Перенаправление для auth
+                { from: /^\/home$/, to: "/index.html" }, // Для workspaces
+            ],
+        },
+    },
+    devtool: "source-map",
 };
