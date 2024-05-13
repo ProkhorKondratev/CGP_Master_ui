@@ -63,6 +63,7 @@ logoutButton.onclick = async () => {
 
 const auth = new Auth();
 auth.checkAuth(true).then(() => {
-    // const container = document.querySelector("#workspaces");
-    // new WorkSpacesList(container).init();
+    console.log("Авторизация прошла успешно");
+    const container = document.querySelector(".cgp-content__body");
+    new WorkSpacesList(container).init();
 });

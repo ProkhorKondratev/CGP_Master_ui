@@ -7,10 +7,13 @@ WORKDIR /app
 # Копируем файлы проекта в рабочую директорию
 COPY package*.json ./
 COPY webpack.config.js ./
-COPY src ./src
 
-# Устанавливаем зависимости и собираем проект
+# Устанавливаем зависимости
 RUN npm install
+
+# Копируем файлы и собираем проект
+COPY src ./src
+COPY assets ./assets
 RUN npm run build
 
 # Используем образ Nginx для раздачи собранных файлов
