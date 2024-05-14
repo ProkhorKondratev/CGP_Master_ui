@@ -1,11 +1,15 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const autoprefixer = require("autoprefixer");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const copyPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const buildPath = path.resolve(__dirname, "dist");
 const srcPath = path.resolve(__dirname, "src");
+
+const cesiumSource = "node_modules/cesium/Build/Cesium";
+const cesiumBaseUrl = "cesiumStatic";
 
 module.exports = {
     entry: {
@@ -41,6 +45,18 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+            },
+            {
+                test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
+                type: "asset/inline",
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i, // обработка файлов шрифтов
+                type: "asset/resource",
+            },
         ],
     },
     plugins: [
@@ -58,13 +74,28 @@ module.exports = {
             filename: "[name].[contenthash].css",
             chunkFilename: "[id].[contenthash].css",
         }),
-        new copyPlugin({
+        new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve(__dirname, "assets"),
-                    to: buildPath + "/assets",
+                    from: path.join(cesiumSource, "Workers"),
+                    to: `${cesiumBaseUrl}/Workers`,
+                },
+                {
+                    from: path.join(cesiumSource, "ThirdParty"),
+                    to: `${cesiumBaseUrl}/ThirdParty`,
+                },
+                {
+                    from: path.join(cesiumSource, "Assets"),
+                    to: `${cesiumBaseUrl}/Assets`,
+                },
+                {
+                    from: path.join(cesiumSource, "Widgets"),
+                    to: `${cesiumBaseUrl}/Widgets`,
                 },
             ],
+        }),
+        new webpack.DefinePlugin({
+            CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),
         }),
     ],
     devServer: {
@@ -78,4 +109,16 @@ module.exports = {
         },
     },
     devtool: "source-map",
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /node_modules/,
+                    chunks: "all",
+                    name: "vendor",
+                    enforce: true,
+                },
+            },
+        },
+    },
 };
