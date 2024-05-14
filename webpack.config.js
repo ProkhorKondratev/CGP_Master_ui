@@ -51,7 +51,7 @@ module.exports = {
             },
             {
                 test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
-                type: "asset/inline",
+                type: "asset/resource",
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i, // обработка файлов шрифтов
