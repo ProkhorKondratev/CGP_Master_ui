@@ -4,7 +4,6 @@ import globeIcon from "../../assets/icons/globe.svg";
 import personIcon from "../../assets/icons/person.svg";
 import workspaceIcon from "../../assets/icons/workspace.svg";
 import exitIcon from "../../assets/icons/exit.svg";
-
 import { WidgetFabric } from "./widget_fabric";
 
 export class UIController {
@@ -107,6 +106,6 @@ export class UIController {
             };
         });
 
-        if (widgets.length) widgets[0].click();
+        if (widgets.length) widgets[3].click();
     }
 }

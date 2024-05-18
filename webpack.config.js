@@ -12,8 +12,14 @@ const cesiumSource = "node_modules/cesium/Build/Cesium";
 const cesiumBaseUrl = "cesiumStatic";
 
 module.exports = {
+    // alias на иконки
+    resolve: {
+        alias: {
+            Icons: path.resolve(__dirname, "src/assets/icons"),
+        },
+    },
     entry: {
-        index: srcPath + "/workspaces/index.js",
+        index: srcPath + "/widgets/index.js",
         auth: srcPath + "/auth/index.js",
     },
     output: {
@@ -61,7 +67,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/workspaces/index.html",
+            template: "./src/widgets/index.html",
             filename: "index.html",
             chunks: ["index"],
         }),

@@ -1,4 +1,4 @@
-import { WorkSpacesWidget } from "./workspaces_widget";
+import { WorkSpacesWidget } from "./workspace_widget";
 // import { WorkNodesWidget } from "./worknodes_widget";
 // import { GeoDataWidget } from "./geodata_widget";
 import { MapWidget } from "./map_widget";

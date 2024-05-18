@@ -176,51 +176,75 @@ html, body {
             height: calc(100% - 40px);
             border-radius: 25px;
             background-color: #0f1539;
+            position: relative;
 
             .cesium-viewer {
                 border-radius: 25px;
             }
+
+            .cgp-map_buttons {
+                display: flex;
+                position: absolute;
+                z-index: 1000;
+                background-color: #0f1539;
+                border-radius: 10px;
+                padding: 5px;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                // анимация появления
+                animation: fadeIn 0.5s;
+
+                &.vertical {
+                    flex-direction: column;
+                    gap: 10px;
+                    top: 20px;
+                    left: 20px;
+                }
+
+                &.horizontal {
+                    flex-direction: row;
+                    gap: 10px;
+                    top: 20px;
+                    right: 20px;
+                }
+
+                &.menu {
+                    flex-direction: column;
+                    gap: 10px;
+                    top: 20px;
+                    left: 90px;
+                }
+
+                .cgp-map_button {
+                    background: none;
+                    border: none;
+                    color: white;
+                    padding: 10px;
+                    cursor: pointer;
+                    transition: background-color $transition-speed, color $transition-speed;
+                    border-radius: 10px;
+
+                    &:hover {
+                        background-color: $cgp-nav-active-color;
+                        color: $cgp-nav-text-hover-color;
+                    }
+
+                    img {
+                        width: 20px;
+                        height: 20px;
+                        filter: invert(1);
+                    }
+                }
+            }
         }
     }
-
-    // .cgp-content__body {
-    //     margin-top: 20px;
-    //     display: grid;
-    //     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    //     gap: 20px;
-
-    //     .cgp-workspace-item {
-    //         display: flex;
-    //         flex-direction: column;
-    //         gap: 10px;
-    //         padding: 20px;
-    //         border-radius: 10px;
-    //         background-color: #0f1539;
-    //         color: white;
-    //         cursor: pointer;
-    //         transition: background-color $transition-speed, color $transition-speed;
-
-    //         &:hover {
-    //             background-color: $cgp-nav-active-color;
-    //         color: $cgp-nav-text-hover-color;
-    //         }
-
-    //         .cgp-workspace-item__title {
-    //             font-size: 18px;
-    //             font-weight: bold;
-    //         }
-
-    //         .cgp-workspace-item__description {
-    //             font-size: 14px;
-    //         }
-    //     }
-
-    //     .cgp-map {
-    //         width: 100%;
-    //         height: 300px;
-    //         border-radius: 10px;
-    //         background-color: #0f1539;
-    //     }
-    // }
 }
 
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
