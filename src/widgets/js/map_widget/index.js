@@ -1,5 +1,5 @@
 import { Viewer, Color, Cartesian3, Math as CesiumMath } from "cesium";
-import { ViewMode, SelectMode, DrawMode } from "./map_modes";
+import { ViewMode, SelectMode, DrawMode } from "./modes/map_modes";
 import { BasePopover } from "../popover";
 import PencilIcon from "../../../assets/icons/pencil.svg";
 import CursorIcon from "../../../assets/icons/cursor.svg";
@@ -84,10 +84,6 @@ export class MapWidget {
         this.modes[this.mode].activate();
     }
 
-    saveShape(shape) {
-        this.shapes.push(shape);
-    }
-
     async initMap() {
         this.viewer = new Viewer(this.mapContainer, {
             timeline: false,
@@ -115,10 +111,6 @@ export class MapWidget {
         this.viewer.postProcessStages.fxaa.enabled = true;
         this.viewer.resolutionScale = 2.0;
         this.viewer.scene.globe.baseColor = Color.WHITE;
-    }
-
-    initListeners() {
-        // Инициализация обработчиков событий
     }
 
     destroy() {
