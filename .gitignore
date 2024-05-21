@@ -1,5 +1,6 @@
-# gitignore cgp-ui
 
 node_modules
 
 dist
+
+src/ext_libs

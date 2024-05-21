@@ -7,23 +7,24 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const buildPath = path.resolve(__dirname, "dist");
 const srcPath = path.resolve(__dirname, "src");
-
 const cesiumSource = "node_modules/cesium/Build/Cesium";
-const cesiumBaseUrl = "cesiumStatic";
+const cesiumBaseUrl = "ext_libs/Cesium";
 
 module.exports = {
-    // alias на иконки
     resolve: {
         alias: {
             Icons: path.resolve(__dirname, "src/assets/icons"),
+            "@": path.resolve(__dirname, "src"),
         },
     },
     entry: {
-        index: srcPath + "/widgets/index.js",
-        auth: srcPath + "/auth/index.js",
+        workspaces: srcPath + "/workspaces/index.js",
+        worknodes: srcPath + "/worknodes/index.js",
+        geodata: srcPath + "/geodata/index.js",
     },
     output: {
-        filename: "[name].[contenthash:20].js",
+        // путь формируем так - папка dist, в ней папка workspaces, в ней index.htm
+        filename: "[name]/[name].[contenthash:20].js",
         path: buildPath,
         clean: true,
     },
@@ -58,28 +59,36 @@ module.exports = {
             {
                 test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
                 type: "asset/resource",
+                generator: {
+                    filename: "assets/[name][ext]",
+                },
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i, // обработка файлов шрифтов
                 type: "asset/resource",
+                generator: {
+                    filename: "fonts/[name][ext]",
+                },
             },
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/widgets/index.html",
-            filename: "index.html",
-            chunks: ["index"],
+            template: "./src/workspaces/workspaces.html",
+            filename: "workspaces/index.html",
+            chunks: ["workspaces"],
         }),
         new HtmlWebpackPlugin({
-            template: "./src/auth/index.html",
-            filename: "auth.html",
-            chunks: ["auth"],
+            template: "./src/worknodes/worknodes.html",
+            filename: "worknodes/index.html",
+            chunks: ["worknodes"],
         }),
-        new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].css",
-            chunkFilename: "[id].[contenthash].css",
+        new HtmlWebpackPlugin({
+            template: "./src/geodata/geodata.html",
+            filename: "geodata/index.html",
+            chunks: ["geodata"],
         }),
+
         new CopyWebpackPlugin({
             patterns: [
                 {
@@ -100,6 +109,11 @@ module.exports = {
                 },
             ],
         }),
+        new MiniCssExtractPlugin({
+            filename: "[name]/[name].[contenthash:20].css",
+            chunkFilename: "[id].css",
+        }),
+
         new webpack.DefinePlugin({
             CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),
         }),
@@ -109,8 +123,9 @@ module.exports = {
         hot: true,
         historyApiFallback: {
             rewrites: [
-                { from: /^\/auth$/, to: "/auth.html" }, // Перенаправление для auth
-                { from: /^\/home$/, to: "/index.html" }, // Для workspaces
+                { from: /^\/workspaces$/, to: "/workspaces/index.html" }, // Для workspaces
+                { from: /^\/worknodes$/, to: "/worknodes/index.html" }, // Для worknodes
+                { from: /^\/geodata$/, to: "/geodata/index.html" }, // Для geodata
             ],
         },
     },
@@ -118,10 +133,10 @@ module.exports = {
     optimization: {
         splitChunks: {
             cacheGroups: {
-                vendor: {
-                    test: /node_modules/,
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
                     chunks: "all",
-                    name: "vendor",
                     enforce: true,
                 },
             },

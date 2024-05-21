@@ -1,0 +1,187 @@
+$body-bg: #5149ac;
+$container-bg: #1b1550;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1200px;
+
+$cgp-nav-active-color: #678afe;
+$cgp-nav-text-color: #9694ad;
+$cgp-nav-text-hover-color: white;
+$cgp-nav-item-padding: 10px;
+$cgp-nav-item-border-radius: 10px;
+$transition-speed: 0.3s;
+
+.cgp-map {
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #0f1539;
+    position: absolute;
+
+    .cesium-viewer {
+        border-radius: 25px;
+    }
+
+    .cgp-map_buttons {
+        display: flex;
+        position: absolute;
+        z-index: 1000;
+        background-color: #0f1539;
+        border-radius: 10px;
+        padding: 5px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        animation: fadeIn 0.5s;
+
+        &.vertical {
+            flex-direction: column;
+            gap: 10px;
+            top: 20px;
+            left: 20px;
+        }
+
+        &.horizontal {
+            flex-direction: row;
+            gap: 10px;
+            top: 20px;
+            right: 20px;
+        }
+
+        &.menu {
+            flex-direction: column;
+            gap: 10px;
+            top: 20px;
+            left: 90px;
+        }
+    }
+
+    .cgp-ws__info {
+        position: absolute;
+        z-index: 1000;
+        background-color: #0f1539;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        color: white;
+        animation: fadeIn 0.5s;
+    }
+}
+
+.cgp-map_button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color $transition-speed, color $transition-speed;
+    border-radius: 10px;
+    align-items: center;
+
+    &:hover {
+        background-color: $cgp-nav-active-color;
+        color: $cgp-nav-text-hover-color;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+        filter: invert(1);
+    }
+}
+
+.cgp-workspaces-list {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    width: 250px;
+    background-color: #0f1539;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: fadeIn 0.5s;
+    max-height: 75%;
+    overflow-y: auto;
+
+    .cgp-workspaces-list-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+
+        .cgp-workspaces-item {
+            display: flex;
+            flex-direction: column;
+            background-color: #1b1550;
+            gap: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color $transition-speed, color $transition-speed;
+
+            .cgp-workspaces-item__header {
+                text-align: left
+                
+                h3 {
+                    color: white;
+                    font-size: 1rem;
+                    margin: 0;
+                }
+
+                h4 {
+                    color: #9694ad;
+                    font-size: 0.8rem;
+                    margin: 0;
+                }
+            }
+
+            .cgp-workspaces-item__icon {
+                display: flex;
+                width: 100%;
+
+                img {
+                    width: 100%;
+                    max-height: 80px;
+                    object-fit: contain;
+                    border-radius: 5px;
+                }
+            }
+
+            .cgp-workspaces-item__footer {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.cgp-workspaces-list-btn {
+    z-index: 1000;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color $transition-speed, color $transition-speed;
+    border-radius: 10px;
+    align-items: center;
+
+    &:hover {
+        background-color: $cgp-nav-active-color;
+        color: $cgp-nav-text-hover-color;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+        filter: invert(1);
+    }
+}
