@@ -1,6 +1,7 @@
 import { UIController } from "@/base/ui_controller";
 import { WorkNodesHandler } from "./js/worknodes_handler";
 import "@/base/styles.scss";
+import "./css/styles.scss";
 
 const uiController = new UIController();
 uiController.init();
