@@ -1,0 +1,118 @@
+.ms-task-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.ms-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.ms-form-select {
+    display: flex;
+    flex-direction: column;
+}
+
+.ms-form-check {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ms-input {
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.ms-input:hover {
+    border-color: #4144db;
+    color: #4144db;
+}
+
+.ms-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #4144db;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ms-checkbox:checked::before {
+    content: '\2714';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    font-size: 18px;
+    color: #4144db;
+}
+
+.ms-checkbox:checked {
+    animation: checked 0.2s forwards;
+}
+
+@keyframes checked {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.ms-form-label {
+    text-align: start;
+    font-size: 1rem;
+    /* white-space: nowrap; */
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+}
+
+.ms-input.ms-error {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+.ms-form-label.ms-error {
+    color: #e74c3c;
+}
+
+.ms-form-submit {
+    margin-top: 1rem;
+    background-color: #4144db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.ms-form-submit:hover {
+    background-color: #2e325c;
+}
+
+.ms-form-submit:disabled {
+    background-color: #e0e2e7;
+    color: white;
+    cursor: not-allowed;
+}

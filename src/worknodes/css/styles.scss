@@ -150,32 +150,6 @@ span.info {
                 flex-direction: column;
                 gap: 10px;
 
-                .wn-cont__connection {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    padding: 10px 0;
-                    border-bottom: 1px solid #fff;
-
-                    h5 {
-                        font-size: 1rem;
-                        font-weight: bold;
-                    }
-
-                    .wn-cont__connection__item {
-                        display: flex;
-                        flex-direction: column;
-                        margin-bottom: 10px;
-                        gap: 10px;
-                        
-                        div {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                        }
-                    }
-                }
-
                 .wn-cont__status {
                     display: flex;
                     justify-content: space-between;
@@ -202,7 +176,7 @@ span.info {
                     }
                 }
 
-                .wn-cont__processing {
+                .wn-cont__info {
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
@@ -214,38 +188,7 @@ span.info {
                         font-weight: bold;
                     }
 
-                    .wn-cont__processing__item {
-                        display: flex;
-                        flex-direction: column;
-
-                        .wn-cont__processing-info {
-                            display: flex;
-                            flex-direction: column;
-                            margin-bottom: 10px;
-                            gap: 10px;
-                            
-                            div {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                            }
-                        }
-                    }
-                }
-
-                .wn-cont__specs {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    padding: 10px 0;
-                    border-bottom: 1px solid #fff;
-
-                    h5 {
-                        font-size: 1rem;
-                        font-weight: bold;
-                    }
-
-                    .wn-cont__specs__item {
+                    .wn-cont__info__item {
                         display: flex;
                         flex-direction: column;
                         margin-bottom: 10px;
