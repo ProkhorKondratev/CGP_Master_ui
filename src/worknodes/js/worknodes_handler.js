@@ -1,4 +1,6 @@
 import BIcon from "bootstrap-icons/bootstrap-icons.svg";
+import { FormCreator, APIHandler } from "./form_creator";
+
 class WorkNode {
     constructor(props, parent) {
         this.parent = parent;
@@ -117,18 +119,16 @@ class WorkNode {
         this.parent.modal.open("Редактирование узла", "Форма редактирования узла");
     }
 
-    deleteNode() {
-        const deleteCont = document.createElement("div");
-        deleteCont.innerHTML = `
-            <p>Вы уверены, что хотите удалить узел?</p>
-            <button class="wn__button">Подтвердить</button> <!-- исправлено -->
-        `;
-        deleteCont.querySelector("button").onclick = () => {
-            console.log("Delete node");
-            this.parent.modal.close();
+    async deleteNode() {
+        const deleteCallback = () => {
+            this.element.remove();
+            if (this.parent) {
+                this.parent.workNodes = this.parent.workNodes.filter((node) => node.id !== this.id);
+            }
         };
 
-        this.parent.modal.open("Удаление узла", deleteCont);
+        const deleteNodeForm = await FormCreator.createDeleteNodeForm(this.id, deleteCallback);
+        this.parent.modal.open("Удаление узла", deleteNodeForm);
     }
 
     showTasks() {
@@ -152,6 +152,8 @@ export class WorkNodesHandler {
     }
 
     async render() {
+        this.container.querySelector(".wn-list")?.remove();
+
         this.element = document.createElement("div");
         this.element.className = "wn-list";
         this.element.innerHTML = `
@@ -176,51 +178,7 @@ export class WorkNodesHandler {
     }
 
     async collectNodes() {
-        const workNodes = [
-            {
-                id: 2,
-                stats: {
-                    working: 10,
-                    pending: 20,
-                    success: 100,
-                    fail: 5,
-                },
-                specs: {
-                    cpu: "Intel Core i7",
-                    ram: "16 GB",
-                    gpu: "Nvidia GTX 1060",
-                },
-            },
-            {
-                id: 1,
-                stats: {
-                    working: 10,
-                    pending: 20,
-                    success: 100,
-                    fail: 5,
-                },
-                specs: {
-                    cpu: "Intel Core i7",
-                    ram: "16 GB",
-                    gpu: "Nvidia GTX 1060",
-                },
-            },
-            {
-                id: 3,
-                stats: {
-                    working: 10,
-                    pending: 20,
-                    success: 100,
-                    fail: 5,
-                },
-                specs: {
-                    cpu: "Intel Core i7",
-                    ram: "16 GB",
-                    gpu: "Nvidia GTX 1060",
-                },
-            },
-        ];
-
+        const workNodes = await APIHandler.getWorkNodes();
         this.workNodes = workNodes.map((node) => new WorkNode(node, this));
     }
 

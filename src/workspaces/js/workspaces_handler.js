@@ -1,18 +1,23 @@
-import { WorkspacesList } from "./workspaces_list.js";
-import { WorkspacesMap } from "./workspaces_map.js";
+import { Cartesian3, Math as CesiumMath, Color, Viewer } from "cesium";
+import { SelectMapButton, DrawMapButton, BaseMapsButton, LayersButton } from "./map_buttons";
+import { GeometryHandler, DrawingHandler } from "./map_handlers";
 
 export class WorkspacesHandler {
     constructor(container) {
         this.container = container;
 
         this.workspaces = [];
-        this.workspacesList = new WorkspacesList();
-        this.workspacesMap = new WorkspacesMap();
+        this.buttons = [];
+
+        this.mapContainer = null;
+        this.viewer = null;
     }
 
     async init() {
         await this.collectWorkspaces();
-        await Promise.all([this.workspacesList.init(this), this.workspacesMap.init(this)]);
+        await this.initMap();
+        await this.initGeometryHandler();
+        await this.initButtons();
     }
 
     async collectWorkspaces() {
@@ -103,5 +108,71 @@ export class WorkspacesHandler {
                 },
             },
         ];
+    }
+
+    async initMap() {
+        this.container.querySelector(".cgp-map")?.remove();
+
+        this.mapContainer = document.createElement("div");
+        this.mapContainer.className = "cgp-map";
+        this.container.appendChild(this.mapContainer);
+
+        this.viewer = new Viewer(this.mapContainer, {
+            timeline: false,
+            animation: false,
+            fullscreenButton: false,
+            selectionIndicator: false,
+            infoBox: false,
+        });
+
+        this.viewer.camera.setView({
+            destination: Cartesian3.fromDegrees(0, 0, 10000000000),
+            orientation: {
+                heading: CesiumMath.toRadians(0),
+                pitch: CesiumMath.toRadians(-90),
+                roll: 0.0,
+            },
+        });
+
+        this.viewer.camera.flyTo({
+            destination: Cartesian3.fromDegrees(90, 60, 10000000),
+            duration: 3,
+        });
+
+        this.viewer._cesiumWidget._creditContainer.remove();
+        this.viewer.postProcessStages.fxaa.enabled = true;
+        this.viewer.resolutionScale = 2.0;
+        this.viewer.scene.globe.baseColor = Color.WHITE;
+    }
+
+    async initButtons() {
+        const verticalToolbar = document.createElement("div");
+        verticalToolbar.className = "cgp-map_buttons vertical";
+
+        const horizontalToolbar = document.createElement("div");
+        horizontalToolbar.className = "cgp-map_buttons horizontal";
+
+        this.buttons = [
+            new SelectMapButton(verticalToolbar, this),
+            new DrawMapButton(verticalToolbar, this),
+            new BaseMapsButton(horizontalToolbar, this),
+            new LayersButton(horizontalToolbar, this),
+        ];
+
+        this.mapContainer.appendChild(verticalToolbar);
+        this.mapContainer.appendChild(horizontalToolbar);
+
+        this.buttons.forEach((button) => {
+            button.init();
+        });
+    }
+
+    async initGeometryHandler() {
+        // this.geometryHandler = new GeometryHandler(this.viewer);
+        // await this.geometryHandler.processWorkspaces(this.workspaces);
+        // this.geometryHandler.initListeners();
+
+        this.drawingHandler = new DrawingHandler(this.viewer);
+        this.drawingHandler.initListeners();
     }
 }

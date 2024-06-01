@@ -84,10 +84,10 @@ $transition-speed: 0.3s;
         color: $cgp-nav-text-hover-color;
     }
 
-    img {
+    svg {
         width: 20px;
         height: 20px;
-        filter: invert(1);
+        fill: white;
     }
 }
 
@@ -122,17 +122,17 @@ $transition-speed: 0.3s;
             transition: background-color $transition-speed, color $transition-speed;
 
             .cgp-workspaces-item__header {
-                text-align: left
-                
-                h3 {
+                text-align: left;
+
+                h4 {
                     color: white;
-                    font-size: 1rem;
+                    font-size: 1.2rem;
                     margin: 0;
                 }
 
-                h4 {
+                h5 {
                     color: #9694ad;
-                    font-size: 0.8rem;
+                    font-size: 1rem;
                     margin: 0;
                 }
             }
@@ -179,9 +179,9 @@ $transition-speed: 0.3s;
         color: $cgp-nav-text-hover-color;
     }
 
-    img {
+    svg {
         width: 20px;
         height: 20px;
-        filter: invert(1);
+        fill: white;
     }
 }

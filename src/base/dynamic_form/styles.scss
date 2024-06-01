@@ -1,6 +1,7 @@
 .ms-task-form {
     display: flex;
     flex-direction: column;
+    color: black;
 }
 
 .ms-inputs {
@@ -33,11 +34,16 @@
     font-size: 1rem;
     border-radius: 4px;
     transition: color 0.2s, border-color 0.2s;
-}
 
-.ms-input:hover {
-    border-color: #4144db;
-    color: #4144db;
+    &:hover {
+        border-color: #4144db;
+        color: #4144db;
+    }
+
+    &.ms-error {
+        border-color: #e74c3c;
+        color: #e74c3c;
+    }
 }
 
 .ms-checkbox {
@@ -51,19 +57,19 @@
     outline: none;
     cursor: pointer;
     transition: background-color 0.2s ease;
-}
 
-.ms-checkbox:checked::before {
-    content: '\2714';
-    position: absolute;
-    top: -2px;
-    left: 2px;
-    font-size: 18px;
-    color: #4144db;
-}
+    &::before {
+        content: '\2714';
+        position: absolute;
+        top: -2px;
+        left: 2px;
+        font-size: 18px;
+        color: #4144db;
+    }
 
-.ms-checkbox:checked {
-    animation: checked 0.2s forwards;
+    &:checked {
+        animation: checked 0.2s forwards;
+    }
 }
 
 @keyframes checked {
@@ -81,18 +87,11 @@
 .ms-form-label {
     text-align: start;
     font-size: 1rem;
-    /* white-space: nowrap; */
     overflow: hidden;
-    /* text-overflow: ellipsis; */
-}
 
-.ms-input.ms-error {
-    border-color: #e74c3c;
-    color: #e74c3c;
-}
-
-.ms-form-label.ms-error {
-    color: #e74c3c;
+    &.ms-error {
+        color: #e74c3c;
+    }
 }
 
 .ms-form-submit {
@@ -105,14 +104,14 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-}
 
-.ms-form-submit:hover {
-    background-color: #2e325c;
-}
+    &:hover {
+        background-color: #2e325c;
+    }
 
-.ms-form-submit:disabled {
-    background-color: #e0e2e7;
-    color: white;
-    cursor: not-allowed;
+    &:disabled {
+        background-color: #e0e2e7;
+        color: white;
+        cursor: not-allowed;
+    }
 }

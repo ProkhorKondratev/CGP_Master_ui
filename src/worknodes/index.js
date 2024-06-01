@@ -1,6 +1,5 @@
 import { UIController } from "@/base/ui_controller";
 import { DynamicModal } from "@/base/dynamic_modal";
-import { DynamicForm } from "@/base/dynamic_form";
 import { WorkNodesHandler } from "./js/worknodes_handler";
 
 import "@/base/styles.scss";

@@ -373,7 +373,7 @@ class GroupInput extends BaseInput {
     }
 }
 
-export class MetashapeDynamicForm {
+export class DynamicForm {
     constructor() {
         this.schema = null;
         this.inputs = [];

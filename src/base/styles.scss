@@ -60,11 +60,12 @@ body {
         transition: background-color $transition-speed, color $transition-speed;
         cursor: pointer;
 
-        img {
+        svg {
             margin-right: 12px;
-            filter: invert(0.5);
+            fill: $cgp-nav-text-color;
             width: 18px;
             height: 18px;
+            transition: fill $transition-speed;
         }
 
         &:hover,
@@ -72,8 +73,8 @@ body {
             background-color: $cgp-nav-active-color;
             color: $cgp-nav-text-hover-color;
 
-            img {
-                filter: invert(1);
+            svg {
+                fill: $cgp-nav-text-hover-color;
             }
         }
     }
@@ -106,19 +107,10 @@ body {
                 font-weight: bold;
             }
 
-            .cgp-user__avatar img {
+            svg {
                 width: 25px;
                 height: 25px;
-                border-radius: 50%;
-                overflow: hidden;
-                filter: invert(1);
-            }
-
-            .cgp-user__exit img {
-                width: 25px;
-                height: 25px;
-                cursor: pointer;
-                filter: invert(1);
+                fill: white;
             }
         }
 

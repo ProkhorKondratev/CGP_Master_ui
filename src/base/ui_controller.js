@@ -1,9 +1,4 @@
-import nodeIcon from "Icons/node.svg";
-import geodataIcon from "Icons/table.svg";
-import globeIcon from "Icons/globe.svg";
-import personIcon from "Icons/person.svg";
-import workspaceIcon from "Icons/workspace.svg";
-import exitIcon from "Icons/exit.svg";
+import BIcon from "bootstrap-icons/bootstrap-icons.svg";
 
 export class UIController {
     constructor(container = document.body) {
@@ -39,15 +34,14 @@ export class UIController {
         this.nav.innerHTML = `
             <div class="cgp-nav__head">
                 <div class="cgp-nav__menu">
-                    <div widget="workspaces" class="cgp-nav__menu-item"><img src=${workspaceIcon} alt="" />Рабочие пространства</div>
-                    <div widget="worknodes" class="cgp-nav__menu-item"><img src=${nodeIcon} alt="" />Рабочие узлы</div>
-                    <div widget="geodata" class="cgp-nav__menu-item"><img src=${geodataIcon} alt="" /> Геохранилище</div>
-                    <div widget="map" class="cgp-nav__menu-item"><img src=${globeIcon} alt="" /> Карта</div>
-                    <div widget="profile" class="cgp-nav__menu-item"><img src=${personIcon} alt="" /> Личный кабинет</div>
+                    <div widget="workspaces" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#globe-central-south-asia"></use></svg>Рабочие пространства</div>
+                    <div widget="worknodes" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#diagram-2-fill"></use></svg>Рабочие узлы</div>
+                    <div widget="geodata" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#table"></use></svg> Геохранилище</div>
+                    <div widget="profile" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#person-fill"></use></svg> Личный кабинет</div>
                 </div>
             </div>
             <div class="cgp-nav__footer">
-                <div class="cgp-nav__menu-item"><img src=${exitIcon} alt="" />Выйти</div>
+                <div class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#box-arrow-right"></use></svg>Выйти</div>
             </div>
         `;
         this.baseEl.appendChild(this.nav);
@@ -62,10 +56,10 @@ export class UIController {
                 <div class="cgp-user">
                     <div class="cgp-user__fio"><span>Иванов</span> <span>Иван</span></div>
                     <a class="cgp-user__avatar">
-                        <img src=${personIcon} alt="" />
+                        <svg><use xlink:href="${BIcon}#person-fill"></use></svg>
                     </a>
                     <div class="cgp-user__exit">
-                        <img src=${exitIcon} alt="" />
+                        <svg><use xlink:href="${BIcon}#box-arrow-right">
                     </div>
                 </div>
             </div>
@@ -84,7 +78,7 @@ export class UIController {
             };
         });
 
-        const widgets = document.querySelectorAll(".cgp-nav__menu-item");
+        const widgets = document.querySelectorAll(".cgp-nav__menu .cgp-nav__menu-item");
         widgets.forEach((widget) => {
             const widgetName = widget.getAttribute("widget");
             widget.onclick = () => {
