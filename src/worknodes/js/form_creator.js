@@ -39,14 +39,20 @@ export class APIHandler {
                         success: 100,
                         fail: 5,
                     },
+                    status: "active",
                     specs: {
                         cpu: "Intel Core i7",
                         ram: "16 GB",
                         gpu: "Nvidia GTX 1060",
+                    },
+                    disk: {
+                        all: "1 TB",
+                        used: "500 GB",
                     },
                 },
                 {
                     id: 1,
+                    status: "active",
                     stats: {
                         working: 10,
                         pending: 20,
@@ -57,10 +63,15 @@ export class APIHandler {
                         cpu: "Intel Core i7",
                         ram: "16 GB",
                         gpu: "Nvidia GTX 1060",
+                    },
+                    disk: {
+                        all: "1 TB",
+                        used: "500 GB",
                     },
                 },
                 {
                     id: 3,
+                    status: "active",
                     stats: {
                         working: 10,
                         pending: 20,
@@ -71,6 +82,48 @@ export class APIHandler {
                         cpu: "Intel Core i7",
                         ram: "16 GB",
                         gpu: "Nvidia GTX 1060",
+                    },
+                    disk: {
+                        all: "1 TB",
+                        used: "500 GB",
+                    },
+                },
+                {
+                    id: 3,
+                    status: "inactive",
+                    stats: {
+                        working: 10,
+                        pending: 20,
+                        success: 100,
+                        fail: 5,
+                    },
+                    specs: {
+                        cpu: "Intel Core i7",
+                        ram: "16 GB",
+                        gpu: "Nvidia GTX 1060",
+                    },
+                    disk: {
+                        all: "1 TB",
+                        used: "500 GB",
+                    },
+                },
+                {
+                    id: 3,
+                    status: "inactive",
+                    stats: {
+                        working: 10,
+                        pending: 20,
+                        success: 100,
+                        fail: 5,
+                    },
+                    specs: {
+                        cpu: "Intel Core i7",
+                        ram: "16 GB",
+                        gpu: "Nvidia GTX 1060",
+                    },
+                    disk: {
+                        all: "1 TB",
+                        used: "500 GB",
                     },
                 },
             ];

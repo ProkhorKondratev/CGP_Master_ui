@@ -1,5 +1,4 @@
 import BIcon from "bootstrap-icons/bootstrap-icons.svg";
-import { BasePopover } from "@/base/popover";
 
 class MapButton {
     constructor(container, parent) {

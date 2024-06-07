@@ -1,9 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const buildPath = path.resolve(__dirname, "dist");
 const srcPath = path.resolve(__dirname, "src");
@@ -30,44 +29,26 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(scss)$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
                     },
-                    {
-                        loader: "css-loader",
-                    },
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [autoprefixer],
-                            },
-                        },
-                    },
-                    {
-                        loader: "sass-loader",
-                    },
-                ],
+                },
             },
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
             {
-                test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
-                type: "asset/resource",
-                generator: {
-                    filename: "assets/[name][ext]",
-                },
+                test: /\.scss$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
             {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i, // обработка файлов шрифтов
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: "asset/resource",
-                generator: {
-                    filename: "fonts/[name][ext]",
-                },
             },
         ],
     },
@@ -87,7 +68,6 @@ module.exports = {
             filename: "geodata/index.html",
             chunks: ["geodata"],
         }),
-
         new CopyWebpackPlugin({
             patterns: [
                 {
@@ -112,33 +92,8 @@ module.exports = {
             filename: "[name]/[name].[contenthash:20].css",
             chunkFilename: "[id].css",
         }),
-
         new webpack.DefinePlugin({
             CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),
         }),
     ],
-    devServer: {
-        port: 8080,
-        hot: true,
-        historyApiFallback: {
-            rewrites: [
-                { from: /^\/workspaces$/, to: "/workspaces/index.html" }, // Для workspaces
-                { from: /^\/worknodes$/, to: "/worknodes/index.html" }, // Для worknodes
-                { from: /^\/geodata$/, to: "/geodata/index.html" }, // Для geodata
-            ],
-        },
-    },
-    devtool: "source-map",
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: "vendors",
-                    chunks: "all",
-                    enforce: true,
-                },
-            },
-        },
-    },
 };
