@@ -40,7 +40,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: $body-bg;
     border-radius: 10px;
     border: 2px solid #f1f1f1;
 }

@@ -9,7 +9,6 @@ class MapButton {
 
     init() {
         this.renderButton();
-        this.initPopover();
         this.initListeners();
     }
 
@@ -18,10 +17,6 @@ class MapButton {
         this.button.className = "cgp-map_button";
         this.button.innerHTML = `<svg><use xlink:href="${BIcon}#${icon}"></use></svg>`;
         this.container.appendChild(this.button);
-    }
-
-    initPopover(description = "Кнопка", place = "right") {
-        new BasePopover(this.button, description, place);
     }
 
     initListeners() {
@@ -38,7 +33,6 @@ export class SelectMapButton extends MapButton {
 
     init() {
         this.renderButton("cursor-fill");
-        this.initPopover("Курсор");
         this.initListeners();
     }
 
@@ -56,7 +50,6 @@ export class DrawMapButton extends MapButton {
 
     init() {
         this.renderButton("pencil-fill");
-        this.initPopover("Режим рисования");
         this.initListeners();
     }
 
@@ -74,7 +67,6 @@ export class BaseMapsButton extends MapButton {
 
     async init() {
         this.renderButton("globe");
-        this.initPopover("Базовые карты", "bottom");
         this.initListeners();
     }
 
@@ -92,7 +84,6 @@ export class LayersButton extends MapButton {
 
     async init() {
         this.renderButton("stack");
-        this.initPopover("Слои", "bottom");
         this.initListeners();
     }
 

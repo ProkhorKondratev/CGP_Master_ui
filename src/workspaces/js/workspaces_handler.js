@@ -135,52 +135,54 @@ export class WorkspacesHandler {
             infoBox: false,
         });
 
-        // this.viewer.camera.setView({
-        //     destination: Cartesian3.fromDegrees(0, 0, 10000000000),
-        //     orientation: {
-        //         heading: CesiumMath.toRadians(0),
-        //         pitch: CesiumMath.toRadians(-90),
-        //         roll: 0.0,
-        //     },
-        // });
+        this.viewer.camera.setView({
+            destination: Cartesian3.fromDegrees(0, 0, 10000000000),
+            orientation: {
+                heading: CesiumMath.toRadians(0),
+                pitch: CesiumMath.toRadians(-90),
+                roll: 0.0,
+            },
+        });
 
-        const imageryLayer = this.viewer.imageryLayers.addImageryProvider(
-            new UrlTemplateImageryProvider({
-                url: "http://localhost:8888/geodata/tiles/a578daf1-7679-4a0e-a816-f867e6f34eb5/{z}/{x}/{reverseY}",
-                rectangle: new Rectangle.fromDegrees(
-                    -82.69819415241241,
-                    28.03907581676107,
-                    -82.69653263584242,
-                    28.04070614879691
-                ),
-            })
-        );
+        this.viewer.imageryLayers.removeAll();
 
-        this.viewer.scene.globe.depthTestAgainstTerrain = true;
-        console.log("Загрузка 3D модели");
-        const threeDimModel = await Cesium3DTileset.fromUrl(
-            "http://localhost:8888/geodata/3dtiles/5c289402-9311-4c43-8014-88c81eb056a2/tileset.json",
-            {
-                skipLevelOfDetail: true,
-                baseScreenSpaceError: 1024,
-                skipScreenSpaceErrorFactor: 16,
-                skipLevels: 1,
-                immediatelyLoadDesiredLevelOfDetail: false,
-                loadSiblings: false,
-                cullWithChildrenBounds: true,
-            }
-        );
-        this.viewer.scene.primitives.add(threeDimModel);
+        // const imageryLayer = this.viewer.imageryLayers.addImageryProvider(
+        //     new UrlTemplateImageryProvider({
+        //         url: "http://localhost:8888/geodata/tiles/a578daf1-7679-4a0e-a816-f867e6f34eb5/{z}/{x}/{reverseY}",
+        //         rectangle: new Rectangle.fromDegrees(
+        //             -82.69819415241241,
+        //             28.03907581676107,
+        //             -82.69653263584242,
+        //             28.04070614879691
+        //         ),
+        //     })
+        // );
 
-        const height = 150;
+        // this.viewer.scene.globe.depthTestAgainstTerrain = true;
+        // console.log("Загрузка 3D модели");
+        // const threeDimModel = await Cesium3DTileset.fromUrl(
+        //     "http://localhost:8888/geodata/3dtiles/5c289402-9311-4c43-8014-88c81eb056a2/tileset.json",
+        //     {
+        //         skipLevelOfDetail: true,
+        //         baseScreenSpaceError: 1024,
+        //         skipScreenSpaceErrorFactor: 16,
+        //         skipLevels: 1,
+        //         immediatelyLoadDesiredLevelOfDetail: false,
+        //         loadSiblings: false,
+        //         cullWithChildrenBounds: true,
+        //     }
+        // );
+        // this.viewer.scene.primitives.add(threeDimModel);
 
-        const cartographic = Cartographic.fromCartesian(threeDimModel.boundingSphere.center);
-        const surface = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
-        const offset = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height);
-        const translation = Cartesian3.subtract(offset, surface, new Cartesian3());
-        threeDimModel.modelMatrix = Matrix4.fromTranslation(translation);
+        // const height = 150;
 
-        this.viewer.flyTo(imageryLayer);
+        // const cartographic = Cartographic.fromCartesian(threeDimModel.boundingSphere.center);
+        // const surface = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
+        // const offset = Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height);
+        // const translation = Cartesian3.subtract(offset, surface, new Cartesian3());
+        // threeDimModel.modelMatrix = Matrix4.fromTranslation(translation);
+
+        // this.viewer.flyTo(imageryLayer);
 
         this.viewer.camera.flyTo({
             destination: Cartesian3.fromDegrees(90, 60, 10000000),
@@ -188,8 +190,8 @@ export class WorkspacesHandler {
         });
 
         this.viewer._cesiumWidget._creditContainer.remove();
-        this.viewer.postProcessStages.fxaa.enabled = true;
-        this.viewer.resolutionScale = 2.0;
+        // this.viewer.postProcessStages.fxaa.enabled = true;
+        // this.viewer.resolutionScale = 2.0;
         this.viewer.scene.globe.baseColor = Color.WHITE;
     }
 
