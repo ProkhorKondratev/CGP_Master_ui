@@ -26,7 +26,7 @@ export class WorkspacesHandler {
     async init() {
         await this.collectWorkspaces();
         await this.initMap();
-        await this.initGeometryHandler();
+        await this.initHandlers();
         await this.initButtons();
     }
 
@@ -217,7 +217,7 @@ export class WorkspacesHandler {
         });
     }
 
-    async initGeometryHandler() {
+    async initHandlers() {
         // this.geometryHandler = new GeometryHandler(this.viewer);
         // await this.geometryHandler.processWorkspaces(this.workspaces);
         // this.geometryHandler.initListeners();

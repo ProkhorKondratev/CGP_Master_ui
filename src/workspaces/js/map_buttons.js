@@ -1,4 +1,7 @@
 import BIcon from "bootstrap-icons/bootstrap-icons.svg";
+import PointsIcon from "Icons/points.svg";
+import LinesIcon from "Icons/polyline.svg";
+import PolygonsIcon from "Icons/polygon.svg";
 
 class MapButton {
     constructor(container, parent) {
@@ -46,6 +49,7 @@ export class SelectMapButton extends MapButton {
 export class DrawMapButton extends MapButton {
     constructor(container, parent) {
         super(container, parent);
+        this._drawMenu = null;
     }
 
     init() {
@@ -54,9 +58,37 @@ export class DrawMapButton extends MapButton {
     }
 
     initListeners() {
+        console.log(PolygonsIcon);
         this.button.onclick = () => {
-            console.log("Draw map button clicked");
+            this.openDrawMenu();
         };
+    }
+
+    openDrawMenu() {
+        console.log("Draw menu opened");
+        if (!this._drawMenu) {
+            this._drawMenu = document.createElement("div");
+            this._drawMenu.className = "cgp-map_buttons v-drawings";
+            this._drawMenu.style.display = "block";
+            this._drawMenu.innerHTML = `
+            <button class="cgp-map_button" data-type="point"><svg><use xlink:href="${PointsIcon}"></use></svg></button>
+            <button class="cgp-map_button" data-type="line"><svg><use xlink:href="${LinesIcon}"></use></svg></button>
+            <button class="cgp-map_button" data-type="polygon"><svg><use xlink:href="${PolygonsIcon}"></use></svg></button>
+            `;
+            this.parent.mapContainer.appendChild(this._drawMenu);
+            this.initDrawMenuListeners();
+        } else {
+            this._drawMenu.style.display = this._drawMenu.style.display === "block" ? "none" : "block";
+        }
+    }
+
+    initDrawMenuListeners() {
+        this._drawMenu.querySelectorAll("button").forEach((button) => {
+            button.onclick = (e) => {
+                const type = e.target.dataset.type;
+                this.parent.drawingHandler.startDrawing(type);
+            };
+        });
     }
 }
 
