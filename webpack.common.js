@@ -12,7 +12,7 @@ const cesiumBaseUrl = "ext_libs/Cesium";
 module.exports = {
     resolve: {
         alias: {
-            Icons: path.resolve(__dirname, "src/assets/icons"),
+            Assets: path.resolve(__dirname, "src/assets"),
             "@": path.resolve(__dirname, "src"),
         },
     },

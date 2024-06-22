@@ -11,12 +11,31 @@ import {
     PolylineDashMaterialProperty,
     Entity,
     Polyline,
+    CustomDataSource,
+    EntityCluster,
 } from "cesium";
+
+import VecrorBillboard from "Assets/png/vector.png";
+import RasterBillboard from "Assets/png/raster.png";
+import ThreeDimBillboard from "Assets/png/threedim.png";
+import ClusterBillboard from "Assets/png/cluster.png";
 
 export class GeometryHandler {
     constructor(viewer) {
         this.viewer = viewer;
         this._handler = null;
+
+        this._dataTypes = {
+            vector: {
+                billboard: VecrorBillboard,
+            },
+            raster: {
+                billboard: RasterBillboard,
+            },
+            threedim: {
+                billboard: ThreeDimBillboard,
+            },
+        };
     }
 
     async processWorkspaces(workspaces) {
@@ -49,7 +68,28 @@ export class GeometryHandler {
         await Promise.all(workspacePromises);
     }
 
-    async ProcessGeoData(geodata) {}
+    async processGeoData(geodata) {
+        const geoDataSource = new CustomDataSource("geodata");
+
+        const geoDataPromises = geodata.map(async (geo) => {
+            geoDataSource.entities.add({
+                name: geo.name,
+                position: Cartesian3.fromDegrees(geo.geom.coordinates[0], geo.geom.coordinates[1]),
+                billboard: {
+                    image: this._dataTypes[geo.type].billboard,
+                    width: 60,
+                    height: 60,
+                },
+                obj_props: {
+                    type: geo.type,
+                    id: geo.id,
+                    name: geo.name,
+                },
+            });
+        });
+        await Promise.all(geoDataPromises);
+        this.viewer.dataSources.add(geoDataSource);
+    }
 
     initListeners() {
         this._handler = new ScreenSpaceEventHandler(this.viewer.canvas);
@@ -72,6 +112,18 @@ export class GeometryHandler {
 
         if (pickedObject && pickedObject.id) {
             console.log(pickedObject.id.obj_props);
+        }
+
+        // выводим координаты курсора
+        const ray = this.viewer.camera.getPickRay(movement.endPosition);
+        const earthPosition = this.viewer.scene.globe.pick(ray, this.viewer.scene);
+
+        if (earthPosition) {
+            const cartographic = Cartographic.fromCartesian(earthPosition);
+            const longitude = CesiumMath.toDegrees(cartographic.longitude);
+            const latitude = CesiumMath.toDegrees(cartographic.latitude);
+            const height = cartographic.height;
+            console.log(longitude, latitude, height);
         }
     }
 
