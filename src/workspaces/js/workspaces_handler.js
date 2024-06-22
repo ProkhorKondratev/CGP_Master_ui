@@ -4,13 +4,10 @@ import {
     Color,
     Viewer,
     UrlTemplateImageryProvider,
-    Cesium3DTileset,
-    Rectangle,
-    Matrix4,
-    Cartographic,
 } from "cesium";
 import { SelectMapButton, DrawMapButton, BaseMapsButton, LayersButton } from "./map_buttons";
-import { GeometryHandler, DrawingHandler } from "./map_handlers";
+import { DrawingEngine } from "./drawing";
+import { GeometryHandler } from "./geometry";
 import { workspaces, geodata } from "./geodata";
 
 export class WorkspacesHandler {
@@ -141,7 +138,22 @@ export class WorkspacesHandler {
         await this.geometryHandler.processGeoData(this.geodata);
         this.geometryHandler.initListeners();
 
-        this.drawingHandler = new DrawingHandler(this.viewer);
-        this.drawingHandler.initListeners();
+        this.drawingHandler = new DrawingEngine(this.viewer);
+    }
+
+    changeBaseMap(type) {
+        this.viewer.imageryLayers.removeAll();
+
+        const types = {
+            osm: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            google: "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}",
+            hybrid: "https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}",
+        };
+
+        this.viewer.imageryLayers.addImageryProvider(
+            new UrlTemplateImageryProvider({
+                url: types[type],
+            })
+        );
     }
 }

@@ -1,137 +1,4 @@
-import {
-    ScreenSpaceEventHandler,
-    ScreenSpaceEventType,
-    Cartesian3,
-    Color,
-    CallbackProperty,
-    PolygonHierarchy,
-    JulianDate,
-    Math as CesiumMath,
-    Cartographic,
-    PolylineDashMaterialProperty,
-    Entity,
-    Polyline,
-    CustomDataSource,
-    EntityCluster,
-} from "cesium";
-
-import VecrorBillboard from "Assets/png/vector.png";
-import RasterBillboard from "Assets/png/raster.png";
-import ThreeDimBillboard from "Assets/png/threedim.png";
-import ClusterBillboard from "Assets/png/cluster.png";
-
-export class GeometryHandler {
-    constructor(viewer) {
-        this.viewer = viewer;
-        this._handler = null;
-
-        this._dataTypes = {
-            vector: {
-                billboard: VecrorBillboard,
-            },
-            raster: {
-                billboard: RasterBillboard,
-            },
-            threedim: {
-                billboard: ThreeDimBillboard,
-            },
-        };
-    }
-
-    async processWorkspaces(workspaces) {
-        const workspacePromises = workspaces.map(async (workspace) => {
-            const workspaceCoordinates = workspace.coverage.coordinates.flat(2);
-
-            this.viewer.entities.add({
-                name: workspace.name,
-                description: workspace.description,
-                polygon: {
-                    hierarchy: Cartesian3.fromDegreesArray(workspaceCoordinates),
-                    material: Color.BLUE.withAlpha(0.5),
-                },
-                polyline: {
-                    positions: Cartesian3.fromDegreesArray(workspaceCoordinates),
-                    width: 2,
-                    material: new PolylineDashMaterialProperty({
-                        color: Color.YELLOW,
-                    }),
-                },
-                obj_props: {
-                    type: "workspace",
-                    id: workspace.id,
-                    name: workspace.name,
-                    description: workspace.description,
-                },
-            });
-        });
-
-        await Promise.all(workspacePromises);
-    }
-
-    async processGeoData(geodata) {
-        const geoDataSource = new CustomDataSource("geodata");
-
-        const geoDataPromises = geodata.map(async (geo) => {
-            geoDataSource.entities.add({
-                name: geo.name,
-                position: Cartesian3.fromDegrees(geo.geom.coordinates[0], geo.geom.coordinates[1]),
-                billboard: {
-                    image: this._dataTypes[geo.type].billboard,
-                    width: 60,
-                    height: 60,
-                },
-                obj_props: {
-                    type: geo.type,
-                    id: geo.id,
-                    name: geo.name,
-                },
-            });
-        });
-        await Promise.all(geoDataPromises);
-        this.viewer.dataSources.add(geoDataSource);
-    }
-
-    initListeners() {
-        this._handler = new ScreenSpaceEventHandler(this.viewer.canvas);
-        this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
-
-        this._handler.setInputAction((click) => this.handleClick(click), ScreenSpaceEventType.LEFT_CLICK);
-        this._handler.setInputAction((movement) => this.handleMove(movement), ScreenSpaceEventType.MOUSE_MOVE);
-    }
-
-    handleClick(click) {
-        const pickedObject = this.viewer.scene.pick(click.position);
-
-        if (pickedObject && pickedObject.id) {
-            console.log(pickedObject.id.obj_props);
-        }
-    }
-
-    handleMove(movement) {
-        const pickedObject = this.viewer.scene.pick(movement.endPosition);
-
-        if (pickedObject && pickedObject.id) {
-            console.log(pickedObject.id.obj_props);
-        }
-
-        // выводим координаты курсора
-        const ray = this.viewer.camera.getPickRay(movement.endPosition);
-        const earthPosition = this.viewer.scene.globe.pick(ray, this.viewer.scene);
-
-        if (earthPosition) {
-            const cartographic = Cartographic.fromCartesian(earthPosition);
-            const longitude = CesiumMath.toDegrees(cartographic.longitude);
-            const latitude = CesiumMath.toDegrees(cartographic.latitude);
-            const height = cartographic.height;
-            console.log(longitude, latitude, height);
-        }
-    }
-
-    destroyListeners() {
-        this._handler.destroy();
-        this._handler = null;
-    }
-}
+import { ScreenSpaceEventHandler, ScreenSpaceEventType, Color, CallbackProperty, PolygonHierarchy } from "cesium";
 
 class DrawMode {
     constructor(viewer, engine) {
@@ -327,42 +194,34 @@ class PolyDrawMode extends LineDrawMode {
     }
 }
 
-export class DrawingHandler {
-    constructor(viewer) {
+export class DrawingEngine {
+    constructor(viewer, options = {}) {
         this._viewer = viewer;
-        this._onDrawingStart = undefined;
-        this._onDrawingStop = undefined;
-        this._onDrawingComplete = undefined;
-        this._onDrawingError = undefined;
+
+        this._onDrawingStart = options.onDrawingStart;
+        this._onDrawingStop = options.onDrawingStop;
+        this._onDrawingComplete = options.onDrawingComplete;
+        this._onDrawingError = options.onDrawingError;
 
         this._modes = {
             point: PointDrawMode,
             line: LineDrawMode,
             polygon: PolyDrawMode,
-            // rect:
         };
 
         this._currentMode = undefined;
     }
 
-    startDrawing(mode = "point") {
+    startDrawing(mode) {
         if (this._currentMode) this._currentMode.deactivate();
 
         this._currentMode = new this._modes[mode](this._viewer, this);
         if (this._currentMode) this._currentMode.activate();
-        else if (this._onDrawingError) this._onDrawingError();
+        else if (this._onDrawingError) this._onDrawingError("Заданный режим не поддерживается");
     }
 
     stopDrawing() {
         if (this._currentMode) this._currentMode.deactivate();
-        if (this._onDrawingStop) this._onDrawingStop();
         this._currentMode = undefined;
-    }
-
-    initListeners() {
-        this._onDrawingStart = () => console.log("Drawing started");
-        this._onDrawingStop = () => console.log("Drawing stopped");
-        this._onDrawingComplete = (coords) => console.log("Drawing completed", coords);
-        this._onDrawingError = () => console.error("Drawing error");
     }
 }

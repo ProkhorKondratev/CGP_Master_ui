@@ -216,9 +216,8 @@ class WorkNode {
     async deleteNode() {
         const deleteCallback = () => {
             this.element.remove();
-            if (this.parent) {
-                this.parent.workNodes = this.parent.workNodes.filter((node) => node.id !== this.id);
-            }
+            this.parent.workNodes = this.parent.workNodes.filter((node) => node.id !== this.id);
+            this.parent.modal.close();
         };
 
         const deleteNodeForm = await FormCreator.createDeleteNodeForm(this.id, deleteCallback);

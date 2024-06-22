@@ -25,6 +25,7 @@ module.exports = {
         filename: "[name]/[name].[contenthash:20].js",
         path: buildPath,
         clean: true,
+        publicPath: "/",
     },
     module: {
         rules: [
@@ -93,8 +94,8 @@ module.exports = {
             ],
         }),
         new MiniCssExtractPlugin({
-            filename: "[name]/[name].[contenthash:20].css",
-            chunkFilename: "[id].css",
+            // filename: "[name]/[name].[contenthash:20].css",
+            // chunkFilename: "[id].css",
         }),
         new webpack.DefinePlugin({
             CESIUM_BASE_URL: JSON.stringify(cesiumBaseUrl),

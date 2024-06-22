@@ -1,7 +1,7 @@
 export const workspaces = [
     {
         id: 1,
-        name: "Workspace 1",
+        name: "Рабочая область 1",
         description: "Description 1",
         coverage: {
             type: "Polygon",
@@ -18,7 +18,7 @@ export const workspaces = [
     },
     {
         id: 2,
-        name: "Workspace 2",
+        name: "Рабочая область 2",
         description: "Description 2",
         coverage: {
             type: "Polygon",
@@ -35,7 +35,7 @@ export const workspaces = [
     },
     {
         id: 3,
-        name: "Workspace 3",
+        name: "Рабочая область 3",
         description: "Description 3",
         coverage: {
             type: "Polygon",
@@ -52,7 +52,7 @@ export const workspaces = [
     },
     {
         id: 2,
-        name: "Workspace 2",
+        name: "Рабочая область 4",
         description: "Description 2",
         coverage: {
             type: "Polygon",
@@ -69,7 +69,7 @@ export const workspaces = [
     },
     {
         id: 3,
-        name: "Workspace 3",
+        name: "Рабочая область 5",
         description: "Description 3",
         coverage: {
             type: "Polygon",

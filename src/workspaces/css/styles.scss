@@ -10,6 +10,24 @@ $cgp-nav-item-padding: 10px;
 $cgp-nav-item-border-radius: 10px;
 $transition-speed: 0.3s;
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 .cgp-map {
     width: 100%;
     height: 100%;
@@ -37,13 +55,6 @@ $transition-speed: 0.3s;
             left: 20px;
         }
 
-        &.v-drawings {
-            flex-direction: column;
-            gap: 10px;
-            top: 20px;
-            left: 80px;
-        }
-
         &.horizontal {
             flex-direction: row;
             gap: 10px;
@@ -51,11 +62,11 @@ $transition-speed: 0.3s;
             right: 20px;
         }
 
-        &.menu {
+        &.v-drawings {
             flex-direction: column;
             gap: 10px;
             top: 20px;
-            left: 100px;
+            left: 80px;
         }
     }
 
@@ -68,6 +79,62 @@ $transition-speed: 0.3s;
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         color: white;
         animation: fadeIn 0.5s;
+    }
+}
+
+.cgp-base-maps {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    width: 250px;
+    background-color: #0f1539;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: fadeIn 0.5s;
+    gap: 15px;
+
+    &__title {
+        font-size: 1.2rem;
+        margin: 0;
+        border-bottom: 1px solid white;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 600px;
+
+        &-item {
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-radius: 5px;
+            transition: box-shadow $transition-speed, background-color $transition-speed;
+
+            p {
+                margin: 0;
+            }
+
+            img {
+                height: 100px;
+                width: 100%;
+                border-radius: 5px;
+                object-fit: cover;
+            }
+
+            &:hover,
+            &.active {
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+                background-color: $cgp-nav-active-color;
+            }
+        }
     }
 }
 
@@ -94,100 +161,77 @@ $transition-speed: 0.3s;
         width: 20px;
         height: 20px;
         fill: white;
+        pointer-events: none;
     }
-}
 
-.cgp-workspaces-list {
-    position: absolute;
-    right: 20px;
-    top: 60px;
-    width: 250px;
-    background-color: #0f1539;
-    justify-content: center;
-    z-index: 1000;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    animation: fadeIn 0.5s;
-    max-height: 75%;
-    overflow-y: auto;
-
-    .cgp-workspaces-list-content {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
-
-        .cgp-workspaces-item {
-            display: flex;
-            flex-direction: column;
-            background-color: #1b1550;
-            gap: 10px;
-            padding: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color $transition-speed, color $transition-speed;
-
-            .cgp-workspaces-item__header {
-                text-align: left;
-
-                h4 {
-                    color: white;
-                    font-size: 1.2rem;
-                    margin: 0;
-                }
-
-                h5 {
-                    color: #9694ad;
-                    font-size: 1rem;
-                    margin: 0;
-                }
-            }
-
-            .cgp-workspaces-item__icon {
-                display: flex;
-                width: 100%;
-
-                img {
-                    width: 100%;
-                    max-height: 80px;
-                    object-fit: contain;
-                    border-radius: 5px;
-                }
-            }
-
-            .cgp-workspaces-item__footer {
-                display: flex;
-                gap: 10px;
-                justify-content: center;
-            }
-        }
-    }
-}
-
-.cgp-workspaces-list-btn {
-    z-index: 1000;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 40px;
-    height: 40px;
-    background: none;
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color $transition-speed, color $transition-speed;
-    border-radius: 10px;
-    align-items: center;
-
-    &:hover {
+    &.active {
         background-color: $cgp-nav-active-color;
         color: $cgp-nav-text-hover-color;
     }
 
-    svg {
-        width: 20px;
-        height: 20px;
-        fill: white;
+    &.small {
+        padding: 5px;
+    }
+}
+
+.cgp-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    width: 250px;
+    padding: 10px;
+    background-color: #0f1539;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: fadeIn 0.5s;
+    max-height: 60vh;
+    overflow-y: auto;
+
+    &__workspaces,
+    &__geodata {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            transition: box-shadow $transition-speed, background-color $transition-speed;
+
+            .item-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+            }
+
+            &:hover, &.active {
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+                background-color: $body-bg;
+            }
+        }
     }
 }
