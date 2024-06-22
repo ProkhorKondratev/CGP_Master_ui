@@ -8,6 +8,7 @@ import {
     JulianDate,
     Math as CesiumMath,
     Cartographic,
+    PolylineDashMaterialProperty,
     Entity,
     Polyline,
 } from "cesium";
@@ -15,7 +16,7 @@ import {
 export class GeometryHandler {
     constructor(viewer) {
         this.viewer = viewer;
-        this.eventHandler = null;
+        this._handler = null;
     }
 
     async processWorkspaces(workspaces) {
@@ -27,12 +28,14 @@ export class GeometryHandler {
                 description: workspace.description,
                 polygon: {
                     hierarchy: Cartesian3.fromDegreesArray(workspaceCoordinates),
-                    material: Color.RED.withAlpha(0.5),
+                    material: Color.BLUE.withAlpha(0.5),
                 },
                 polyline: {
                     positions: Cartesian3.fromDegreesArray(workspaceCoordinates),
                     width: 2,
-                    material: Color.RED,
+                    material: new PolylineDashMaterialProperty({
+                        color: Color.YELLOW,
+                    }),
                 },
                 obj_props: {
                     type: "workspace",
@@ -46,14 +49,14 @@ export class GeometryHandler {
         await Promise.all(workspacePromises);
     }
 
-    async ProcessGeoData() {}
+    async ProcessGeoData(geodata) {}
 
     initListeners() {
-        this.eventHandler = new ScreenSpaceEventHandler(this.viewer.canvas);
+        this._handler = new ScreenSpaceEventHandler(this.viewer.canvas);
         this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
-        this.eventHandler.setInputAction((click) => this.handleClick(click), ScreenSpaceEventType.LEFT_CLICK);
-        this.eventHandler.setInputAction((movement) => this.handleMove(movement), ScreenSpaceEventType.MOUSE_MOVE);
+        this._handler.setInputAction((click) => this.handleClick(click), ScreenSpaceEventType.LEFT_CLICK);
+        this._handler.setInputAction((movement) => this.handleMove(movement), ScreenSpaceEventType.MOUSE_MOVE);
     }
 
     handleClick(click) {
@@ -73,8 +76,8 @@ export class GeometryHandler {
     }
 
     destroyListeners() {
-        this.eventHandler.destroy();
-        this.eventHandler = null;
+        this._handler.destroy();
+        this._handler = null;
     }
 }
 

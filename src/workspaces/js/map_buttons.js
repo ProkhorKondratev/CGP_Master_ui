@@ -1,8 +1,10 @@
-import BIcon from "bootstrap-icons/bootstrap-icons.svg";
 import PointsIcon from "Icons/points.svg";
 import LinesIcon from "Icons/polyline.svg";
 import PolygonsIcon from "Icons/polygon.svg";
-
+import CursorIcon from "bootstrap-icons/icons/cursor-fill.svg";
+import PencilIcon from "bootstrap-icons/icons/pencil-fill.svg";
+import GlobeIcon from "bootstrap-icons/icons/globe.svg";
+import LayersIcon from "bootstrap-icons/icons/stack.svg";
 class MapButton {
     constructor(container, parent) {
         this.container = container;
@@ -15,10 +17,11 @@ class MapButton {
         this.initListeners();
     }
 
-    renderButton(icon = "stack") {
+    renderButton(icon, title = "") {
         this.button = document.createElement("button");
         this.button.className = "cgp-map_button";
-        this.button.innerHTML = `<svg><use xlink:href="${BIcon}#${icon}"></use></svg>`;
+        this.button.innerHTML = icon;
+        this.button.setAttribute("title", title);
         this.container.appendChild(this.button);
     }
 
@@ -35,7 +38,7 @@ export class SelectMapButton extends MapButton {
     }
 
     init() {
-        this.renderButton("cursor-fill");
+        this.renderButton(CursorIcon, "Курсор");
         this.initListeners();
     }
 
@@ -53,12 +56,11 @@ export class DrawMapButton extends MapButton {
     }
 
     init() {
-        this.renderButton("pencil-fill");
+        this.renderButton(PencilIcon, "Панель рисования");
         this.initListeners();
     }
 
     initListeners() {
-        console.log(PolygonsIcon);
         this.button.onclick = () => {
             this.openDrawMenu();
         };
@@ -71,9 +73,9 @@ export class DrawMapButton extends MapButton {
             this._drawMenu.className = "cgp-map_buttons v-drawings";
             this._drawMenu.style.display = "block";
             this._drawMenu.innerHTML = `
-            <button class="cgp-map_button" data-type="point"><svg><use xlink:href="${PointsIcon}"></use></svg></button>
-            <button class="cgp-map_button" data-type="line"><svg><use xlink:href="${LinesIcon}"></use></svg></button>
-            <button class="cgp-map_button" data-type="polygon"><svg><use xlink:href="${PolygonsIcon}"></use></svg></button>
+            <button class="cgp-map_button" data-type="point">${PointsIcon}</button>
+            <button class="cgp-map_button" data-type="line">${LinesIcon}</button>
+            <button class="cgp-map_button" data-type="polygon">${PolygonsIcon}</button>
             `;
             this.parent.mapContainer.appendChild(this._drawMenu);
             this.initDrawMenuListeners();
@@ -98,7 +100,7 @@ export class BaseMapsButton extends MapButton {
     }
 
     async init() {
-        this.renderButton("globe");
+        this.renderButton(GlobeIcon, "Базовые карты");
         this.initListeners();
     }
 
@@ -115,7 +117,7 @@ export class LayersButton extends MapButton {
     }
 
     async init() {
-        this.renderButton("stack");
+        this.renderButton(LayersIcon, "Слои");
         this.initListeners();
     }
 

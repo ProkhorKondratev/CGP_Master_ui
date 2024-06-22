@@ -120,6 +120,10 @@ export class WorkspacesHandler {
         ];
     }
 
+    async collectGeoData() {
+        this.geodata = [];
+    }
+
     async initMap() {
         this.container.querySelector(".cgp-map")?.remove();
 
@@ -143,8 +147,6 @@ export class WorkspacesHandler {
                 roll: 0.0,
             },
         });
-
-        this.viewer.imageryLayers.removeAll();
 
         // const imageryLayer = this.viewer.imageryLayers.addImageryProvider(
         //     new UrlTemplateImageryProvider({
@@ -218,9 +220,9 @@ export class WorkspacesHandler {
     }
 
     async initHandlers() {
-        // this.geometryHandler = new GeometryHandler(this.viewer);
-        // await this.geometryHandler.processWorkspaces(this.workspaces);
-        // this.geometryHandler.initListeners();
+        this.geometryHandler = new GeometryHandler(this.viewer);
+        await this.geometryHandler.processWorkspaces(this.workspaces);
+        this.geometryHandler.initListeners();
 
         this.drawingHandler = new DrawingHandler(this.viewer);
         this.drawingHandler.initListeners();

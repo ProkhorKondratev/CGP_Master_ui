@@ -1,4 +1,8 @@
-import BIcon from "bootstrap-icons/bootstrap-icons.svg";
+import ActiveIcon from "bootstrap-icons/icons/check-circle.svg";
+import InactiveIcon from "bootstrap-icons/icons/x-circle.svg";
+import PencilIcon from "bootstrap-icons/icons/pencil-fill.svg";
+import TrashIcon from "bootstrap-icons/icons/trash-fill.svg";
+import PlusIcon from "bootstrap-icons/icons/plus.svg";
 import { FormCreator, APIHandler } from "./form_creator";
 
 class WorkNode {
@@ -17,8 +21,8 @@ class WorkNode {
         this.element = null;
 
         this.statusMap = {
-            active: { text: "Активен", icon: "check-circle" },
-            inactive: { text: "Не активен", icon: "x-circle" },
+            active: { text: "Активен", icon: ActiveIcon },
+            inactive: { text: "Не активен", icon: InactiveIcon },
         };
     }
 
@@ -31,8 +35,8 @@ class WorkNode {
                     <span>${this._name}</span>
                 </div>
                 <div class="wn-header__actions">
-                    <button class="wn__button" disabled><svg><use xlink:href="${BIcon}#pencil-fill"></use></svg></button>
-                    <button class="wn__button"><svg><use xlink:href="${BIcon}#trash-fill"></use></svg></button>
+                    <button class="wn__button" disabled>${PencilIcon}</button>
+                    <button class="wn__button">${TrashIcon}</button>
                 </div>
             </div>
             <div class="wn__content">
@@ -53,7 +57,7 @@ class WorkNode {
                     <h5>Статус</h5>
                     <div class="wn-cont__status__item">
                         <span>${this.statusMap[this._status].text}</span>
-                        <svg><use xlink:href="${BIcon}#${this.statusMap[this._status].icon}"></use></svg>
+                        ${this.statusMap[this._status].icon}
                     </div>
                 </div>
                 <div class="wn-cont__info">
@@ -157,10 +161,7 @@ class WorkNode {
     set status(value) {
         this._status = value;
         const statusItem = this.element.querySelector(".wn-cont__status__item");
-        statusItem.children[0].textContent = this.statusMap[value].text;
-        statusItem.children[1]
-            .querySelector("use")
-            .setAttribute("xlink:href", `${BIcon}#${this.statusMap[value].icon}`);
+        statusItem.innerHTML = `<span>${this.statusMap[value].text}</span>${this.statusMap[value].icon}`;
     }
 
     get stats() {
@@ -251,10 +252,7 @@ export class WorkNodesHandler {
         this.element.className = "wn-list";
         this.element.innerHTML = `
             <div class="wn-list__header">
-                <button class="wn__button menu">
-                    <svg><use xlink:href="${BIcon}#plus"></use></svg>
-                    Добавить
-                </button>
+                <button class="wn__button menu">${PlusIcon}Добавить</button>
             </div>
             <div class="wn-list__body"></div>
         `;

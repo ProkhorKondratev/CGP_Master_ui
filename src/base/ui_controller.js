@@ -1,4 +1,8 @@
-import BIcon from "bootstrap-icons/bootstrap-icons.svg";
+import GlobeIcon from "bootstrap-icons/icons/globe-central-south-asia.svg";
+import NodesIcon from "bootstrap-icons/icons/diagram-2-fill.svg";
+import TableIcon from "bootstrap-icons/icons/table.svg";
+import PersonIcon from "bootstrap-icons/icons/person-fill.svg";
+import ExitIcon from "bootstrap-icons/icons/box-arrow-right.svg";
 
 export class UIController {
     constructor(container = document.body) {
@@ -34,14 +38,14 @@ export class UIController {
         this.nav.innerHTML = `
             <div class="cgp-nav__head">
                 <div class="cgp-nav__menu">
-                    <div widget="workspaces" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#globe-central-south-asia"></use></svg>Рабочие пространства</div>
-                    <div widget="worknodes" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#diagram-2-fill"></use></svg>Рабочие узлы</div>
-                    <div widget="geodata" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#table"></use></svg> Геохранилище</div>
-                    <div widget="profile" class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#person-fill"></use></svg> Личный кабинет</div>
+                    <div widget="workspaces" class="cgp-nav__menu-item">${GlobeIcon}Рабочие пространства</div>
+                    <div widget="worknodes" class="cgp-nav__menu-item">${NodesIcon}Рабочие узлы</div>
+                    <div widget="geodata" class="cgp-nav__menu-item">${TableIcon}Геохранилище</div>
+                    <div widget="profile" class="cgp-nav__menu-item">${PersonIcon}Личный кабинет</div>
                 </div>
             </div>
             <div class="cgp-nav__footer">
-                <div class="cgp-nav__menu-item"><svg><use xlink:href="${BIcon}#box-arrow-right"></use></svg>Выйти</div>
+                <div class="cgp-nav__menu-item">${ExitIcon}Выйти</div>
             </div>
         `;
         this.baseEl.appendChild(this.nav);
@@ -55,12 +59,8 @@ export class UIController {
                 <div class="cgp-content__title">Рабочие пространства</div>
                 <div class="cgp-user">
                     <div class="cgp-user__fio"><span>Иванов</span> <span>Иван</span></div>
-                    <a class="cgp-user__avatar">
-                        <svg><use xlink:href="${BIcon}#person-fill"></use></svg>
-                    </a>
-                    <div class="cgp-user__exit">
-                        <svg><use xlink:href="${BIcon}#box-arrow-right">
-                    </div>
+                    <a class="cgp-user__avatar">${PersonIcon}</a>
+                    <div class="cgp-user__exit">${ExitIcon}</div>
                 </div>
             </div>
             <div class="cgp-content__body"></div>
