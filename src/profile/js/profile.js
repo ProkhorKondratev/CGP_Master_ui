@@ -149,10 +149,6 @@ class ProfileStats {
                 },
             },
         });
-
-        this.baseEl.querySelector("button").addEventListener("click", () => {
-            this.parent.modal.open("Отправка сообщения", "Ваше сообщение успешно отправлено!");
-        });
     }
 }
 

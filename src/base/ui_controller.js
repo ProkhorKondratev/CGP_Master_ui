@@ -58,7 +58,7 @@ export class UIController {
             <div class="cgp-content__head">
                 <div class="cgp-content__title">${this._title}</div>
                 <div class="cgp-user">
-                    <div class="cgp-user__fio"><span>Иванов</span> <span>Иван</span></div>
+                    <div class="cgp-user__fio"><span>Кондратьев</span> <span>Прохор (admin)</span></div>
                     <a class="cgp-user__avatar">${PersonIcon}</a>
                     <div class="cgp-user__exit">${ExitIcon}</div>
                 </div>
