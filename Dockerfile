@@ -13,7 +13,6 @@ RUN npm install
 
 # Копируем файлы и собираем проект
 COPY src ./src
-COPY assets ./assets
 RUN npm run build
 
 # Используем образ Nginx для раздачи собранных файлов

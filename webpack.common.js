@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const buildPath = path.resolve(__dirname, "dist");
 const srcPath = path.resolve(__dirname, "src");
 const cesiumSource = "node_modules/cesium/Build/Cesium";
-const cesiumBaseUrl = "ext_libs/Cesium";
+const cesiumBaseUrl = "libs/Cesium";
 
 module.exports = {
     resolve: {
@@ -21,7 +21,7 @@ module.exports = {
         worknodes: srcPath + "/worknodes/index.js",
     },
     output: {
-        filename: "[name]/[name].[contenthash:20].js",
+        filename: "js/[name].[contenthash:20].js",
         path: buildPath,
         clean: true,
         publicPath: "/",
