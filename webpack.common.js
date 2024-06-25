@@ -19,6 +19,7 @@ module.exports = {
     entry: {
         workspaces: srcPath + "/workspaces/index.js",
         worknodes: srcPath + "/worknodes/index.js",
+        profile: srcPath + "/profile/index.js",
     },
     output: {
         filename: "js/[name].[contenthash:20].js",
@@ -66,6 +67,11 @@ module.exports = {
             template: "./src/worknodes/worknodes.html",
             filename: "worknodes/index.html",
             chunks: ["worknodes"],
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/profile/profile.html",
+            filename: "profile/index.html",
+            chunks: ["profile"],
         }),
         new CopyWebpackPlugin({
             patterns: [

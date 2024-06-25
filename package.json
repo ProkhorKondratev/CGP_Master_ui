@@ -28,6 +28,8 @@
     },
     "dependencies": {
         "bootstrap-icons": "^1.11.3",
-        "cesium": "^1.118.2"
+        "cesium": "^1.118.2",
+        "chart.js": "^4.4.3",
+        "chartjs-plugin-datalabels": "^2.2.0"
     }
 }

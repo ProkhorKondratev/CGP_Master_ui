@@ -33,7 +33,6 @@
 .ms-input {
     border: 1px solid #e0e0e0;
     background-color: white;
-    width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
     border-radius: 4px;
@@ -47,6 +46,10 @@
     &.ms-error {
         border-color: #e74c3c;
         color: #e74c3c;
+    }
+
+    &.ms-textarea {
+        resize: vertical;
     }
 }
 
